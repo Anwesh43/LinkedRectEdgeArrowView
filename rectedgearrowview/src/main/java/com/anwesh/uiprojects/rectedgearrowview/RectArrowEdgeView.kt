@@ -230,4 +230,13 @@ class RectArrowEdgeView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : RectArrowEdgeView {
+            val view : RectArrowEdgeView = RectArrowEdgeView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
