@@ -203,8 +203,31 @@ class RectArrowEdgeView(ctx : Context) : View(ctx) {
             }
         }
 
-        fun startUdpating(cb : () -> Unit) {
+        fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : RectArrowEdgeView) {
+
+        private val animator : Animator = Animator(view)
+        private val rae : RectArrowEdge = RectArrowEdge(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            rae.draw(canvas, paint)
+            animator.animate {
+                rae.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            rae.startUpdating {
+                animator.start()
+            }
         }
     }
 }
