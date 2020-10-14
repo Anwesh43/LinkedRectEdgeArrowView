@@ -24,13 +24,14 @@ val colors : Array<Int> = arrayOf(
 ).map {
     Color.parseColor(it)
 }.toTypedArray()
-val parts : Int = 4
+val parts : Int = 5
 val scGap : Float = 0.02f / parts
 val strokeFactor : Float = 90f
-val barWFactor : Float = 6.9f
+val barWFactor : Float = 3.1f
 val barHFactor : Float = 12.3f
 val delay : Long = 20
 val backColor : Int = Color.parseColor("#BDBDBD")
+val deg : Float = 90f
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -44,14 +45,16 @@ fun Canvas.drawRectArrowEdge(scale : Float, w : Float, h : Float, paint : Paint)
     val sf1 : Float = sf.divideScale(0, parts)
     val sf2 : Float = sf.divideScale(1, parts)
     val sf3 : Float = sf.divideScale(2, parts)
+    val sf4 : Float = sf.divideScale(3, parts)
     save()
     translate(w / 2, h / 2)
+    rotate(deg * sf4)
     for (j in 0..1) {
         save()
         scale(1f - 2 * j, 1f)
         for (k in 0..1) {
             save()
-            translate(0f, -hBar / 2 + hBar * j)
+            translate(0f, -hBar / 2 + hBar * k)
             drawLine(0f, 0f, wBar * 0.5f * sf1, 0f, paint)
             drawLine(wBar * 0.5f, 0f, wBar * 0.5f + hBar * 0.5f * sf2, (1f - 2 * k) * hBar * 0.5f * sf2, paint)
             restore()
